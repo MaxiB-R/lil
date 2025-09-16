@@ -2,90 +2,133 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Una carta desde el corazón ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para ti 💌</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="music-player">
-        <audio id="background-music" controls loop preload="auto" playsinline webkit-playsinline>
-            <source src="file:///C:/Users/Sahid/Desktop/MP3/Iframe%20Goated%20-%20Star%20Shopping%20(Instrumental)%20%5B9YFZhsPdO5s%5D.mp3" type="audio/mpeg">
-            <source src="../MP3/Iframe Goated - Star Shopping (Instrumental) [9YFZhsPdO5s].mp3" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
-        </audio>
-        <button id="playPauseBtn" class="play-pause-btn">
-            <span class="play-icon">▶️</span>
-            <span class="pause-icon">⏸️</span>
-        </button>
-        <div class="music-label">🌙 Star Shopping (Instrumental) 🌟</div>
-    </div>
-    <div class="stars"></div>
-    <div class="card">
-        <div class="night-sky">
-            <div class="shooting-star"></div>
-            <div class="moon"></div>
-            <div class="city-silhouette"></div>
-        </div>
-        <div class="message">
-            <h1>✨ Mi Estrella ✨</h1>
-            <p class="main-text">
-                En esta noche estrellada, mi corazón late al ritmo de esta melodía mientras pienso en ti... 🌙
-            </p>
-            <div class="letter">
-                <p>
-                    Como las estrellas que brillan en el cielo nocturno,<br>
-                    así brillas tú en mi vida.<br>
-                    En cada nota de esta canción,<br>
-                    encuentro un pedacito de nuestros momentos juntos.<br><br>
-                    
-                    No quiero verte triste,<br>
-                    porque tu sonrisa es como una estrella fugaz<br>
-                    que ilumina mi universo entero. ⭐
-                </p>
+    <div class="music-container">
+        <div class="music-player">
+            <div class="music-info">
+                <div class="song-title">Star Shopping - Instrumental</div>
+                <div class="wave-animation">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
             </div>
-            <div class="floating-hearts">
+            <audio id="background-music" preload="auto">
+                <source src="file:///C:/Users/Sahid/Desktop/MP3/Iframe%20Goated%20-%20Star%20Shopping%20(Instrumental)%20%5B9YFZhsPdO5s%5D.mp3" type="audio/mpeg">
+            </audio>
+            <button id="musicBtn" class="music-btn">
+                <div class="icon-wrapper">
+                    <span class="play-icon">▶️</span>
+                    <span class="pause-icon">⏸️</span>
+                </div>
+                <span class="btn-text">Reproducir música</span>
+            </button>
+        </div>
+    </div>
+    <div id="musicStatus" class="music-status">Haz clic en el botón para comenzar la música</div>
+
+    <div class="card">
+        <div class="landscape">
+            <div class="stars"></div>
+            <div class="moon"></div>
+            <div class="mountains"></div>
+            <div class="reflection"></div>
+        </div>
+
+        <div class="content">
+            <h1>✨ Mi Estrella ✨</h1>
+            
+            <div class="message">
+                En esta noche estrellada, mi corazón late al ritmo de esta melodía mientras pienso en ti... 
+                <span class="emoji">🌙</span>
+            </div>
+
+            <div class="poem">
+                Como las estrellas que brillan en el cielo nocturno,<br>
+                así brillas tú en mi vida.<br>
+                En cada nota de esta canción,<br>
+                encuentro un pedacito de nuestros momentos juntos.<br><br>
+                
+                No quiero verte triste,<br>
+                porque tu sonrisa es como una estrella fugaz<br>
+                que ilumina mi universo entero. <span class="emoji">⭐</span>
+            </div>
+
+            <div class="hearts">
                 💫 🌙 ⭐ 💜 ✨
             </div>
-            <p class="signature">Con amor infinito, entre estrellas y melodías 💫</p>
+
+            <div class="signature">
+                Con amor infinito, entre estrellas y melodías 💫
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const audio = document.getElementById('background-music');
-            const playPauseBtn = document.getElementById('playPauseBtn');
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('background-music');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const musicStatus = document.querySelector('.music-status');
+        const musicControls = document.getElementById('music-controls');
+
+        // Función para iniciar la música
+        function playMusic() {
+            let playPromise = audio.play();
             
-            // Configuración para dispositivos móviles
-            audio.addEventListener('loadeddata', () => {
-                audio.volume = 1.0;  // Asegurarse que el volumen esté al máximo
-            });
-
-            // Manejar interacción del usuario
-            playPauseBtn.addEventListener('click', () => {
-                if (audio.paused) {
-                    let playPromise = audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            playPauseBtn.classList.remove('paused');
-                        }).catch(error => {
-                            console.log("Error reproduciendo el audio: ", error);
-                        });
-                    }
-                } else {
-                    audio.pause();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    playPauseBtn.classList.remove('paused');
+                    musicStatus.textContent = 'Música reproduciéndose...';
+                }).catch(error => {
+                    console.log("Autoplay prevented:", error);
                     playPauseBtn.classList.add('paused');
-                }
-            });
+                    musicStatus.textContent = 'Haz clic para reproducir';
+                });
+            }
+        }
 
-            // Intentar reproducir automáticamente
-            document.body.addEventListener('click', function() {
-                if (audio.paused) {
-                    audio.play().catch(function(error) {
-                        console.log("Error de reproducción automática: ", error);
-                    });
-                }
-            }, { once: true });
+        // Intenta reproducir automáticamente
+        playMusic();
+
+        // Manejo del botón de reproducción/pausa
+        playPauseBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                playMusic();
+            } else {
+                audio.pause();
+                playPauseBtn.classList.add('paused');
+                musicStatus.textContent = 'Música pausada';
+            }
         });
+
+        // Intenta reproducir cuando el usuario interactúa con la página
+        document.body.addEventListener('click', function() {
+            if (audio.paused) {
+                playMusic();
+            }
+        }, { once: true });
+
+        // Manejar cuando la música termina
+        audio.addEventListener('ended', function() {
+            playPauseBtn.classList.add('paused');
+            musicStatus.textContent = 'Música terminada';
+        });
+
+        // Manejar cuando la música está reproduciéndose
+        audio.addEventListener('playing', function() {
+            playPauseBtn.classList.remove('paused');
+            musicStatus.textContent = 'Música reproduciéndose...';
+        });
+
+        // Manejar cuando la música está pausada
+        audio.addEventListener('pause', function() {
+            playPauseBtn.classList.add('paused');
+            musicStatus.textContent = 'Música pausada';
+        });
+    });
     </script>
 </body>
 </html>
